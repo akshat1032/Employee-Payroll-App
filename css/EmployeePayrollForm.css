@@ -146,14 +146,14 @@ select {
     cursor: pointer;
 }
 
-.submitButton {
-    border: none;
+.submitButton,.resetButton {
+    text-decoration: none;
+    text-align: center;
+    margin-block-end: 30px;
     background-color: #f5f5f5;
-    margin-right: 30px;
 }
 
 .cancelButton {
-    /* margin-left: 140px; */
     text-decoration: none;
     text-align: center;
 }
