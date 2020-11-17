@@ -124,7 +124,7 @@ select {
     background-color: transparent;
 }
 
-.button-parent {
+.buttonParent {
     display: flex;
     margin-bottom: 10px;
     justify-content: space-between;
