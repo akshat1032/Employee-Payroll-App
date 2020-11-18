@@ -20,12 +20,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
         output.textContent = salary.value;
     });
 
-    const startDate = document.querySelector("#startDate");
+    const startDate = document.querySelector('[name=startDate]');
     const day = document.querySelector("#day");
     const month = document.querySelector("#month");
     const year = document.querySelector("#year");
     const dateError = document.querySelector('.date-error');
-    startDate.addEventListener('input', function () {
+    startDate.addEventListener('change', function () {
         try {
             new EmployeePayroll().startDate = new Date(
                 Date.UTC(year.value, month.value - 1, day.value)
@@ -41,9 +41,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
 const save = () => {
     try {
         let employeePayrollData = createEmployeePayroll();
+        createAndUpdateStorage(employeePayrollData);
     } catch (e) {
         return;
     }
+}
+
+const createAndUpdateStorage = (employeePayrollData) =>{
+    let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+    if(employeePayrollList != undefined)
+        employeePayrollList.push(employeePayrollData);
+    else
+        employeePayrollList = [employeePayrollData];
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList",JSON.stringify(employeePayrollList));
 }
 
 const createEmployeePayroll = () => {
