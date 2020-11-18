@@ -20,10 +20,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
         output.textContent = salary.value;
     });
 
-    const startDate = document.querySelector('#startDate');
-    const day = document.querySelector('#day');
-    const month = document.querySelector('#month');
-    const year = document.querySelector('#year');
+    const startDate = document.querySelector("#startDate");
+    const day = document.querySelector("#day");
+    const month = document.querySelector("#month");
+    const year = document.querySelector("#year");
     const dateError = document.querySelector('.date-error');
     startDate.addEventListener('input', function () {
         try {
@@ -37,4 +37,48 @@ window.addEventListener("DOMContentLoaded", (event) => {
     });
 
 });
+
+const save = () => {
+    try {
+        let employeePayrollData = createEmployeePayroll();
+    } catch (e) {
+        return;
+    }
+}
+
+const createEmployeePayroll = () => {
+    let employeePayrollData = new EmployeePayroll();
+    try {
+        employeePayrollData.name = getInputValueById('#name');
+    }
+    catch (e) {
+        setTextValue('.text-error', e);
+        throw e;
+    }
+    employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
+    employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
+    employeePayrollData.department = getSelectedValues('[name=department]');
+    employeePayrollData.salary = getInputValueById('#salary');
+    employeePayrollData.note = getInputValueById('#notes');
+    let date = getInputValueById('#day') + " " + getInputValueById('#month') - 1 + " " + getInputValueById('#year');
+    employeePayrollData.startDate = Date.parse(date);
+    alert(employeePayrollData.toString());
+    return employeePayrollData;
+}
+
+const getSelectedValues = (propertyValue) => {
+    let allItems = document.querySelectorAll(propertyValue);
+    let selItems = [];
+    allItems.forEach(item => {
+        if (item.checked)
+            selItems.push(item.value);
+    });
+    return selItems;
+}
+
+const getInputValueById = (id) => {
+    let value = document.querySelector(id).value;
+    console.log(value);
+    return value;
+}
 
