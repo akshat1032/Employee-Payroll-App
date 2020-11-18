@@ -1,78 +1,40 @@
-const salary = document.querySelector('#salary');
-const output = document.querySelector(".salary-output");
-output.textContent = salary.value;
-salary.addEventListener('input', function () {
-    output.textContent = salary.value;
+window.addEventListener("DOMContentLoaded", (event) => {
+    const name = document.querySelector('#name');
+    const textError = document.querySelector('.text-error');
+    name.addEventListener('input', function () {
+        if (name.value.length == 0) {
+            textError.textContent = "";
+            return;
+        }
+        try {
+            new EmployeePayroll().name = name.value;
+            textError.textContent = "";
+        } catch (e) {
+            textError.textContent = e;
+        }
+    });
+
+    const salary = document.querySelector('#salary');
+    const output = document.querySelector('.salary-output');
+    salary.addEventListener('input', function () {
+        output.textContent = salary.value;
+    });
+
+    const startDate = document.querySelector('#startDate');
+    const day = document.querySelector('#day');
+    const month = document.querySelector('#month');
+    const year = document.querySelector('#year');
+    const dateError = document.querySelector('.date-error');
+    startDate.addEventListener('input', function () {
+        try {
+            new EmployeePayroll().startDate = new Date(
+                Date.UTC(year.value, month.value - 1, day.value)
+            );
+            dateError.textContent = "";
+        } catch (e) {
+            dateError.textContent = e;
+        }
+    });
+
 });
 
-const EmployeePayrollRef = require("./EmployeePayroll");
-save = () => {
-    let name = document.getElementById("name").value;
-    let isNameValid = checkName(name);
-    let day = document.getElementById("day").value;
-    let month = document.getElementById("month").value;
-    let year = document.getElementById("year").value;
-    let isDateValid = dateCheck(day, month, year);
-
-    if ((isNameValid) && (isDateValid)) {
-        let departmentArray = new Array();
-        if (document.getElementById("hr").checked == true) departmentArray.push(document.getElementById("hr").value);
-        if (document.getElementById("sales").checked == true) departmentArray.push(document.getElementById("sales").value);
-        if (document.getElementById("finance").checked == true) departmentArray.push(document.getElementById("finance").value);
-        if (document.getElementById("engineer").checked == true) departmentArray.push(document.getElementById("engineer").value);
-        if (document.getElementById("others").checked == true) departmentArray.push(document.getElementById("others").value);
-
-        let gender;
-        if (document.getElementById("male").checked == true) {
-            gender = document.getElementById("male").value;
-        }
-        else {
-            gender = document.getElementById("female").value;
-        }
-        let salary = document.getElementById("salary").value;
-        if (gender == "male") gender = "m";
-        else gender = "f";
-
-        if (month == "Jan") month = 1;
-        if (month == "Feb") month = 2;
-        if (month == "Mar") month = 3;
-        if (month == "Apr") month = 4;
-        if (month == "May") month = 5;
-        if (month == "June") month = 6;
-        if (month == "July") month = 7;
-        if (month == "Aug") month = 8;
-        if (month == "Sep") month = 9;
-        if (month == "Oct") month = 10;
-        if (month == "Nov") month = 11;
-        if (month == "Dec") month = 12;
-
-        let startDate = new Date(year, month, day);
-        let employeePayrollData = new EmployeePayrollRef.EmployeePayroll(name, salary, gender, startDate, departmentArray);
-        console.log(employeePayrollData.toString());
-    }
-    else
-        console.log("Incorrect name or date!!")
-}
-
-checkName = (name) => {
-    let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}$');
-    if (!(nameRegex.test(name))) throw "Name is incorrect"
-    return true;
-}
-
-dateCheck = (day, month, year) => {
-    if (month == "Feb" && (year % 4 == 0 || year % 100 == 0 && year % 400 == 0)) {
-        if (day > 29) throw "Invalid date"
-        return true;
-    }
-
-    if (month == "Feb") {
-        if (day > 28) throw "Invalid Date"
-        return true;
-    }
-
-    if (month == "April" || month == "June" || month == "Sep" || month == "Nov") {
-        if (day > 30) throw "Invalid Date"
-        return true;
-    }
-}
