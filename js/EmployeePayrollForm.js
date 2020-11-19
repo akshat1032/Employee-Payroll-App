@@ -58,6 +58,7 @@ const createAndUpdateStorage = (employeePayrollData) => {
 
 const createEmployeePayroll = () => {
     let employeePayrollData = new EmployeePayroll();
+    employeePayrollData.id = createNewEmployeeId();
     try {
         employeePayrollData.name = getInputValueById('#name');
     }
@@ -67,13 +68,22 @@ const createEmployeePayroll = () => {
     }
     employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
     employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
-    employeePayrollData.department = [getSelectedValues('[name=department]')];
+    employeePayrollData.department = getSelectedValues('[name=department]');
     employeePayrollData.salary = getInputValueById('#salary');
     employeePayrollData.note = getInputValueById('#notes');
-    // let date = getInputValueById('#day') + " " + getInputValueById('#month') - 1 + " " + getInputValueById('#year');
-    employeePayrollData.startDate = new Date(getInputValueById('#year'),Number(getInputValueById('#month'))-1,getInputValueById('#day'));
+    employeePayrollData.startDate = new Date(getInputValueById('#year'), Number(getInputValueById('#month')) - 1, getInputValueById('#day'));
     console.log(employeePayrollData.toString());
     return employeePayrollData;
+}
+
+const createNewEmployeeId = () => {
+    let empID = localStorage.getItem("EmployeeID");
+    if (empID == undefined) {
+        empID = 0;
+    }
+    empID = !empID ? 1 : (parseInt(empID) + 1).toString();
+    localStorage.setItem("EmployeeID", empID);
+    return empID;
 }
 
 const getSelectedValues = (propertyValue) => {
