@@ -11,10 +11,7 @@ const createInnerHTML = () => {
             <td><img class="profile" alt="" src="${empPayrollData._profilePic}"></td>
             <td>${empPayrollData._name}</td>
             <td>${empPayrollData._gender}</td>
-            <td>
-                <div class="dept-label">${empPayrollData._departments[0]}</div>
-                <div class="dept-label">${empPayrollData._departments[1]}</div>
-            </td>
+            <td>${getDeptHtml(empPayrollData._departments)}</td>
             <td>${empPayrollData._salary}</td>
             <td>${empPayrollData._startDate}</td>
             <td>
@@ -40,21 +37,29 @@ const createEmployeePayrollJSON = () => {
             _note: '',
             _id: new Date().getTime(),
             _profilePic: '../assets/profile-images/Ellipse -3.png'
+        },
+        {
+            _name: 'Naruto',
+            _gender: 'male',
+            _departments: [
+                'Engineering',
+                'Finance',
+                'Sales'
+            ],
+            _salary: '600000',
+            _startDate: '16 Sep 2016',
+            _note: '',
+            _id: new Date().getTime(),
+            _profilePic: '../assets/profile-images/Ellipse -5.png'
         }
-        // {
-        //     _name: 'Naruto',
-        //     _gender: 'male',
-        //     _departments: [
-        //         'Engineering',
-        //         'Finance',
-        //         'Sales'
-        //     ],
-        //     _salary: '600000',
-        //     _startDate: '16 Sep 2016',
-        //     _note: '',
-        //     _id: new Date().getTime(),
-        //     _profilePic: '../assets/profile-images/Ellipse -5.png'
-        // }
     ];
     return empPayrollListLocal;
+}
+
+const getDeptHtml = (deptList) => {
+    let deptHtml = '';
+    for(const dept of deptList){
+        deptHtml = `${deptHtml}<div class="dept-label">${dept}</div>`;
+    }
+    return deptHtml;
 }
