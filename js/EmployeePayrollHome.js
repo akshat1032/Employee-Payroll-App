@@ -4,6 +4,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     empPayrollList = getEmployeePayrollDataFromStorage();
     document.querySelector(".emp-count").textContent = empPayrollList.length;
     createInnerHTML();
+    localStorage.removeItem("editEmp");
 });
 
 const getEmployeePayrollDataFromStorage = () => {
@@ -32,39 +33,6 @@ const createInnerHTML = () => {
         </tr>`;
     }
     document.querySelector('#table-display').innerHTML = innerHtml;
-}
-
-const createEmployeePayrollJSON = () => {
-    let empPayrollListLocal = [
-        {
-            _name: 'Akshat',
-            _gender: 'male',
-            _department: [
-                'Sales',
-                'Finance'
-            ],
-            _salary: '500000',
-            _startDate: '30 Oct 2019',
-            _note: '',
-            _id: new Date().getTime(),
-            _profilePic: '../assets/profile-images/Ellipse -3.png'
-        },
-        {
-            _name: 'Naruto',
-            _gender: 'male',
-            _department: [
-                'Engineering',
-                'Finance',
-                'Sales'
-            ],
-            _salary: '600000',
-            _startDate: '16 Sep 2016',
-            _note: '',
-            _id: new Date().getTime(),
-            _profilePic: '../assets/profile-images/Ellipse -5.png'
-        }
-    ];
-    return empPayrollListLocal;
 }
 
 const getDeptHtml = (deptList) => {
