@@ -1,11 +1,19 @@
+let empPayrollList;
+
 window.addEventListener('DOMContentLoaded', (event) => {
+    empPayrollList = getEmployeePayrollDataFromStorage();
+    document.querySelector(".emp-count").textContent = empPayrollList.length;
     createInnerHTML();
 });
 
+const getEmployeePayrollDataFromStorage = () => {
+    return localStorage.getItem('EmployeePayrollList') ? JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
+}
+
 const createInnerHTML = () => {
+    if (empPayrollList.length == 0) return;
     const headerHtml = "<th></th><th>Name</th><th>Gender</th><th>Department</th><th>Salary</th><th>Start Date</th><th>Actions</th>";
     let innerHtml = `${headerHtml}`;
-    let empPayrollList = createEmployeePayrollJSON();
     for (const empPayrollData of empPayrollList) {
         innerHtml =
             ` ${innerHtml}
@@ -13,12 +21,12 @@ const createInnerHTML = () => {
             <td><img class="profile" alt="" src="${empPayrollData._profilePic}"></td>
             <td>${empPayrollData._name}</td>
             <td>${empPayrollData._gender}</td>
-            <td>${getDeptHtml(empPayrollData._departments)}</td>
+            <td>${getDeptHtml(empPayrollData._department)}</td>
             <td>${empPayrollData._salary}</td>
             <td>${empPayrollData._startDate}</td>
             <td>
-                <img name="${empPayrollData._id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
-                <img name="${empPayrollData._id}" alt="edit" onclick="update(this)" alt="delete"
+                <img id="${empPayrollData._id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
+                <img id="${empPayrollData._id}" alt="edit" onclick="update(this)" alt="delete"
                     src="../assets/icons/create-black-18dp.svg">
             </td>
         </tr>`;
@@ -31,7 +39,7 @@ const createEmployeePayrollJSON = () => {
         {
             _name: 'Akshat',
             _gender: 'male',
-            _departments: [
+            _department: [
                 'Sales',
                 'Finance'
             ],
@@ -44,7 +52,7 @@ const createEmployeePayrollJSON = () => {
         {
             _name: 'Naruto',
             _gender: 'male',
-            _departments: [
+            _department: [
                 'Engineering',
                 'Finance',
                 'Sales'
