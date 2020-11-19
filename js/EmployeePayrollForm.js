@@ -1,4 +1,5 @@
 window.addEventListener("DOMContentLoaded", (event) => {
+
     const name = document.querySelector('#name');
     const textError = document.querySelector('.text-error');
     name.addEventListener('input', function () {
@@ -20,16 +21,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
         output.textContent = salary.value;
     });
 
-    const startDate = document.querySelector('[name=startDate]');
-    const day = document.querySelector("#day");
-    const month = document.querySelector("#month");
-    const year = document.querySelector("#year");
+    const date = document.querySelector('#startDate');
     const dateError = document.querySelector('.date-error');
-    startDate.addEventListener('change', function () {
+    date.addEventListener('input', function () {
+        const startDate = new Date(Date.parse(getInputValueById('#day') + " "
+            + getInputValueById('#month') + " "
+            + getInputValueById('#year')));
         try {
-            new EmployeePayroll().startDate = new Date(
-                Date.UTC(year.value, month.value - 1, day.value)
-            );
+            new EmployeePayroll().startDate = startDate;
             dateError.textContent = "";
         } catch (e) {
             dateError.textContent = e;
@@ -68,12 +67,12 @@ const createEmployeePayroll = () => {
     }
     employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
     employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
-    employeePayrollData.department = getSelectedValues('[name=department]');
+    employeePayrollData.department = [getSelectedValues('[name=department]')];
     employeePayrollData.salary = getInputValueById('#salary');
     employeePayrollData.note = getInputValueById('#notes');
-    let date = getInputValueById('#day') + " " + getInputValueById('#month') - 1 + " " + getInputValueById('#year');
-    employeePayrollData.startDate = Date.parse(date);
-    window.alert(employeePayrollData.toString());
+    // let date = getInputValueById('#day') + " " + getInputValueById('#month') - 1 + " " + getInputValueById('#year');
+    employeePayrollData.startDate = new Date(getInputValueById('#year'),Number(getInputValueById('#month'))-1,getInputValueById('#day'));
+    console.log(employeePayrollData.toString());
     return employeePayrollData;
 }
 
@@ -89,7 +88,6 @@ const getSelectedValues = (propertyValue) => {
 
 const getInputValueById = (id) => {
     let value = document.querySelector(id).value;
-    console.log(value);
     return value;
 }
 
@@ -115,6 +113,11 @@ const unsetSelectedValues = (propertyValue) => {
 const setValue = (id, value) => {
     let element = document.querySelector(id);
     element.value = value;
+}
+
+const setTextValue = (id, value) => {
+    const element = document.querySelector(id);
+    element.textContent = value;
 }
 
 

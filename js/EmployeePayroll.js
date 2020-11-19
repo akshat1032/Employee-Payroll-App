@@ -41,9 +41,9 @@ class EmployeePayroll {
 
     get startDate() { return this._startDate; }
     set startDate(startDate) {
-        if (startDate.toLocaleDateString <= new Date().toLocaleDateString)
-            this._startDate = startDate;
-        else throw "Start date is incorrect!";
+        let now = new Date();
+        if (startDate>now) throw "Start date is a future date!";
+        this._startDate = startDate;
     }
 
     //method 
