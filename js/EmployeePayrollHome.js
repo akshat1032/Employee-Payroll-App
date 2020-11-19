@@ -4,9 +4,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 const createInnerHTML = () => {
     const headerHtml = "<th></th><th>Name</th><th>Gender</th><th>Department</th><th>Salary</th><th>Start Date</th><th>Actions</th>";
-    let empPayrollData = createEmployeePayrollJSON()[0];
-    const innerHtml =
-        ` ${headerHtml}
+    let innerHtml = `${headerHtml}`;
+    let empPayrollList = createEmployeePayrollJSON();
+    for (const empPayrollData of empPayrollList) {
+        innerHtml =
+            ` ${innerHtml}
         <tr>
             <td><img class="profile" alt="" src="${empPayrollData._profilePic}"></td>
             <td>${empPayrollData._name}</td>
@@ -20,6 +22,7 @@ const createInnerHTML = () => {
                     src="../assets/icons/create-black-18dp.svg">
             </td>
         </tr>`;
+    }
     document.querySelector('#table-display').innerHTML = innerHtml;
 }
 
@@ -58,7 +61,7 @@ const createEmployeePayrollJSON = () => {
 
 const getDeptHtml = (deptList) => {
     let deptHtml = '';
-    for(const dept of deptList){
+    for (const dept of deptList) {
         deptHtml = `${deptHtml}<div class="dept-label">${dept}</div>`;
     }
     return deptHtml;
