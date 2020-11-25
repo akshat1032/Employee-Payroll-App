@@ -19,16 +19,16 @@ const getEmployeePayrollDataFromStorage = () => {
 }
 
 const getEmployeePayrollDataFromServer = () => {
-    makeServiceCall("GET",site_properties.serverURL, true)
-    .then(responseText => {
-        empPayrollList = JSON.parse(responseText);
-        processEmployeePayrollDataResponse();
-    })
-    .catch(error => {
-        console.log("GET error status: "+JSON.stringify(error));
-        empPayrollList = [];
-        processEmployeePayrollDataResponse();
-    });
+    makeServiceCall("GET", site_properties.serverURL, true)
+        .then(responseText => {
+            empPayrollList = JSON.parse(responseText);
+            processEmployeePayrollDataResponse();
+        })
+        .catch(error => {
+            console.log("GET error status: " + JSON.stringify(error));
+            empPayrollList = [];
+            processEmployeePayrollDataResponse();
+        });
 }
 
 const createInnerHTML = () => {
@@ -67,9 +67,19 @@ const remove = (node) => {
     if (!empPayrollData) return;
     const index = empPayrollList.map(empData => empData.id).indexOf(empPayrollData.id);
     empPayrollList.splice(index, 1);
-    localStorage.setItem("EmployeePayrollList", JSON.stringify(empPayrollList));
-    document.querySelector(".emp-count").textContent = empPayrollList.length;
-    createInnerHTML();
+    if (site_properties.use_local_storage.match("true")) {
+        localStorage.setItem("EmployeePayrollList", JSON.stringify(empPayrollList));
+        createInnerHTML();
+    } else {
+        const deleteURL = site_properties.serverURL + empPayrollData.id.toString();
+        makeServiceCall("DELETE", deleteURL, false)
+            .then(responseText => {
+                createInnerHTML();
+            })
+            .catch(error => {
+                console.log("DELETE error status: " + JSON.stringify(error));
+            });
+    }
 }
 
 const update = (node) => {
