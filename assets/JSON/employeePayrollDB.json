@@ -5,8 +5,11 @@
       "_name": "Mark",
       "_gender": "male",
       "_department": [
+        "HR",
+        "Sales",
+        "Finance",
         "Engineering",
-        "Finance"
+        "Others"
       ],
       "_salary": "500000",
       "_startDate": "29 Oct 2019",
